@@ -63,4 +63,5 @@ describe('association test of User, BlogPost, Comment', () => {
       done()
     })
   })
+
 })
