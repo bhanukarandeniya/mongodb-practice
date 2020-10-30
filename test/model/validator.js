@@ -1,8 +1,8 @@
+/* eslint-disable no-undef */
 const assert = require('assert')
 const User = require('../../src/model/user')
 
 describe('User Model Validation', () => {
-
   it('validate name property', (done) => {
     const user = new User({ name: undefined, postCount: 1 })
     const validation = user.validateSync()

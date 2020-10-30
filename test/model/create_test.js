@@ -9,8 +9,7 @@ describe('creating a record', () => {
       .then(() => {
         assert(!mark.isNew)
         done()
-      }
-      )
+      })
   })
 
   it('saving a user with a post', (done) => {

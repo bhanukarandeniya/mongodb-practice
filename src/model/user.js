@@ -12,12 +12,16 @@ const UserSchema = new Schema({
       message: 'Name should hv minimum 3 characters'
     }
   },
-  posts: [PostSchema]
+  posts: [PostSchema],
+  blogPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'blogPost'
+  }]
 })
 
 UserSchema.virtual('postCount').get(function () {
-    return this.posts.length
-  })
+  return this.posts.length
+})
 
 const User = mongoose.model('user', UserSchema)
 
