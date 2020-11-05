@@ -1,0 +1,24 @@
+{
+    "name": "mongoapp",
+    "version": "1.0.0",
+    "description": "Mongo DB Practice Application",
+    "main": "app.js",
+    "scripts": {
+        "test": "nodemon --exec 'mocha 'test/*/*.js' -R min'"
+    },
+    "author": "Bhanuka Randeniya",
+    "license": "ISC",
+    "dependencies": {
+        "mocha": "^8.1.3",
+        "mongoose": "^5.10.9",
+        "nodemon": "^2.0.4"
+    },
+    "devDependencies": {
+        "eslint": "^7.11.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1"
+    }
+}
