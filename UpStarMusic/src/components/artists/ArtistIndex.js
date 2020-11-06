@@ -37,7 +37,7 @@ class ArtistIndex extends Component {
           <p>
             <b>{artist.age}</b> years old
             <br />
-            {artist.yearsActive} years active
+            {artist.albums ? artist.albums.length : 0} albums released
           </p>
         </div>
         <Link to={`artists/${artist._id}`} className="secondary-content">

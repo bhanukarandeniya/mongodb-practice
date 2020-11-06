@@ -1,3 +1,4 @@
+const { toInteger } = require('lodash');
 const Artist = require('../models/artist');
 
 /**
@@ -7,32 +8,41 @@ const Artist = require('../models/artist');
  * @param {integer} offset How many records to skip in the result set
  * @param {integer} limit How many records to return in the result set
  * @return {promise} A promise that resolves with the artists, count, offset, and limit
- * like this: { all: [artists], count: count, offset: offset, limit: limit }
  */
 module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
- 
-};
+    return Artist.find(findCriteria(criteria)).sort({ [sortProperty]: 1 }).skip(offset).limit(limit)
+        .then((artists) => {
+            return {
+                all: artists,
+                count: artists.length,
+                offset: offset,
+                limit: limit
+            }
+        })
+}
 
-const buildQuery = (criteria) => {
-  const query = {};
-
-  if (criteria.name) {
-    query.$text = { $search: criteria.name };
-  }
-
-  if (criteria.age) {
-    query.age = {
-      $gte: criteria.age.min,
-      $lte: criteria.age.max
-    };
-  }
-
-  if (criteria.yearsActive) {
-    query.yearsActive = {
-      $gte: criteria.yearsActive.min,
-      $lte: criteria.yearsActive.max
-    };
-  }
-
-  return query;
-};
+const findCriteria = (criteria) => {
+    let result = {}
+    if (Object.keys(criteria).length === 1 && criteria.name !== "") {
+        result = { name: { $regex: criteria.name } }
+    } else if (Object.keys(criteria).length === 2) {
+        if (criteria.age) {
+            result = {
+                name: { $regex: criteria.name },
+                age: { $gte: parseInt(criteria.age.min), $lte: parseInt(criteria.age.max) }
+            }
+        } else if (criteria.yearsActive) {
+            result = {
+                name: { $regex: criteria.name },
+                yearsActive: { $gte: parseInt(criteria.yearsActive.min), $lte: parseInt(criteria.yearsActive.max) }
+            }
+        }
+    } else if (Object.keys(criteria).length === 3) {
+        result = {
+            name: { $regex: criteria.name },
+            age: { $gte: parseInt(criteria.age.min), $lte: parseInt(criteria.age.max) },
+            yearsActive: { $gte: parseInt(criteria.yearsActive.min), $lte: parseInt(criteria.yearsActive.max) }
+        }
+    }
+    return result
+}
