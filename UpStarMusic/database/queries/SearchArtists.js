@@ -1,4 +1,3 @@
-const { toInteger } = require('lodash');
 const Artist = require('../models/artist');
 
 /**
@@ -25,22 +24,20 @@ const findCriteria = (criteria) => {
     let result = {}
     if (Object.keys(criteria).length === 1 && criteria.name !== "") {
         result = { name: { $regex: criteria.name } }
-    } else if (Object.keys(criteria).length === 2) {
-        if (criteria.age) {
-            result = {
-                name: { $regex: criteria.name },
-                age: { $gte: parseInt(criteria.age.min), $lte: parseInt(criteria.age.max) }
-            }
-        } else if (criteria.yearsActive) {
-            result = {
-                name: { $regex: criteria.name },
-                yearsActive: { $gte: parseInt(criteria.yearsActive.min), $lte: parseInt(criteria.yearsActive.max) }
-            }
-        }
-    } else if (Object.keys(criteria).length === 3) {
+    } else if (criteria.yearsActive && criteria.age) {
         result = {
             name: { $regex: criteria.name },
             age: { $gte: parseInt(criteria.age.min), $lte: parseInt(criteria.age.max) },
+            yearsActive: { $gte: parseInt(criteria.yearsActive.min), $lte: parseInt(criteria.yearsActive.max) }
+        }
+    } else if (criteria.age) {
+        result = {
+            name: { $regex: criteria.name },
+            age: { $gte: parseInt(criteria.age.min), $lte: parseInt(criteria.age.max) }
+        }
+    } else if (criteria.yearsActive) {
+        result = {
+            name: { $regex: criteria.name },
             yearsActive: { $gte: parseInt(criteria.yearsActive.min), $lte: parseInt(criteria.yearsActive.max) }
         }
     }
